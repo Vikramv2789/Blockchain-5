@@ -127,13 +127,13 @@ console.log("Reward balance of Alice is", ));
 // At first, the blockchain project seemed a little bit confusing. However, around blockchain 2, I felt like I began to get the hang of it. 
 
 // What went well and what didn’t go as expected?
-// What went well was implementing my own implementations to the code. What didn't go as expected was doing the testing and the debugging since it was tedioius.
+// Implementing my own implementations into the code worked out great. The testing and debugging process didn't proceed as planned since it was tedious.
 
 // How did you extend the program using the creative spinning wheel part? 
 // I did not extend the program.
 
 // What open ended question(s) do you have now? 
-// A question I have is if this entire project is most of the implementation of the blockchain, or are there other essential aspects that were not included.
+// Are there any important aspects to blockchain that were not included in the blockchain project.
 
 // Rate the difficulty of the project ( including all concepts and code) overall from 1 ( very easy) to 5 ( very difficult) 
-// I would give this project a 3 because once the code was figured out, the rest was not bad.
+// 5, since it was slightly hard to understand at the beginning, but I understood it after.
