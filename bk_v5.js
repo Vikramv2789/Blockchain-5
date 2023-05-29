@@ -1,4 +1,4 @@
-   const SHA256 = require('crypto-js/sha256'); // I have a question about what this does?
+   const SHA256 = require('crypto-js/sha256'); 
 
 class Block { // this initializes a singular Block object with the following variables.
     constructor(index, timestamp, data, previousHash = "") {
@@ -10,7 +10,7 @@ class Block { // this initializes a singular Block object with the following var
         this.nonce = 0; //this is the nonce
     }
 
-    calculateHash() { // this calculates a given hash based on the hash of the previous block.
+    calculateHash() { 
         return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
     }
 
@@ -18,7 +18,7 @@ class Block { // this initializes a singular Block object with the following var
         while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
            // inside calculate the hash of this block
             this.hash = this.calculateHash();
-            this.nonce++; //increment the nonce as long as our hash doesn't start with enough zeros 
+            this.nonce++; 
             console.log("Block mined " + this.hash);
         }
     }
@@ -96,13 +96,9 @@ class Blockchain { // this initializes a Blockchain that contains multiple block
     // loop over each block of this chain ( Hint: for..of loop)
     // loop over each transaction of this block ( Hint: nested for..of loop)
             if (trans.fromAddress === address) {
-                                 // TYPE THE CODE => reduce the balance because it comes from you
+                            
                 if (trans.toAddress === address) {
-                          // TYPE THE CODE =>increase your balance
-                     // close the inner loop
-                  //close the the outer loop
-              //return balance you have when done looping
-            }   // end of the method
+                         
         }
     }
 
@@ -120,10 +116,8 @@ btCoin.createTransaction(new Transaction('address2', 'address1', 60));
 //TYPE code to send 100 coins from address 2 to 1
 btCoin.createTransaction(new Transaction('address2', 'address1', 100));
 
-// after we create those transactions, they will be pending
+
 console.log('\nStarting miner 1..');
-// TYPE THE CODE to apply the method minePendingTransactions (‘Alice-address’) to your coin
 minePendingTransactions('Alice-address');
 
-//TYPE THE CODE to check the balance 
 console.log("Reward balance of Alice is", )); 
