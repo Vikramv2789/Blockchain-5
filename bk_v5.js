@@ -1,63 +1,129 @@
-    //npm install --save crypto-js in the terminal ';
-//type the following
-const SHA256 = require('crypto-js/sha256');
+   const SHA256 = require('crypto-js/sha256'); // I have a question about what this does?
 
-class Transaction{
-    constructor(fromAddress,toAddress,amount){
-        this.fromAddress=fromAddress;
-        this.toAddress=toAddress;
-        this.amount=amount;
+class Block { // this initializes a singular Block object with the following variables.
+    constructor(index, timestamp, data, previousHash = "") {
+        this.index = index;
+        this.timestamp = timestamp;
+        this.data = data;
+        this.previousHash = previousHash;
+        this.hash = this.calculateHash();
+        this.nonce = 0; //this is the nonce
+    }
+
+    calculateHash() { // this calculates a given hash based on the hash of the previous block.
+        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+    }
+
+    mineBlock(difficulty) {
+        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+           // inside calculate the hash of this block
+            this.hash = this.calculateHash();
+            this.nonce++; //increment the nonce as long as our hash doesn't start with enough zeros 
+            console.log("Block mined " + this.hash);
+        }
     }
 }
 
-class Block{
-    constructor(timestamp, transactions, previousHash ='')
-    {
-        this.timestamp=timestamp;
-        this.transactions=transactions;
-        this.previousHash=previousHash;
-        this.hash=this.calcHash();
-        this.nonce=0;
+class Transaction {
+    constructor(fromAddress, toAddress, amount) {
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
+        this.amount = amount;
+    }
+}
+
+class Blockchain { // this initializes a Blockchain that contains multiple blocks from the previous class.
+    constructor() {
+        this.chain = [this.createGenesisBlock()];
+        this.difficulty = 1;
+        this.pendingTransactions = [];
+        this.miningReward = 50;
     }
 
-    calcHash(){
-        return SHA256(this.index + this.previousHash() + this.timestamp + JSON.stringify(this.data)+this.nonce).toString();
+    createGenesisBlock() { // this initializes the first block of the blockchain, known as the Genesis Block.
+        return new Block(0, "03/01/2009", "Genesis Block", "0");
     }
 
-    mineBlock(difficulty)
-    {
-        while(this.hash.substring(0,difficulty)!== Array(difficulty+1).join("0")){
-        this.hash=this.calcHash();
-        this.nonce++;
+    getLatestBlock() {
+        return this.chain[this.chain.length - 1];
     }
-    console.log("Block mined"+this.hash);
+
+    addBlock(newBlock) {
+        newBlock.previousHash = this.getLatestBlock().hash;
+        newBlock.mineBlock(this.difficulty);
+        newBlock.hash = newBlock.calculateHash();
+        this.chain.push(newBlock);
+    }
+
+    isChainValid() {
+        for (let i = 1; i < this.chain.length; i++) {
+            const currentBlock = this.chain[i];
+            const prevBlock = this.chain[i-1];
+
+            if (currentBlock.hash != currentBlock.calculateHash()) {
+                return false;
+            }
+
+            if (currentBlock.previousHash != prevBlock.calculateHash()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    minePendingTransactions(miningRewardAddress) {
+        let block = new Block(Date.now(), this.pendingTransactions);
+        // mine the block
+        block.mineBlock(this.difficulty);
+        console.log("Block successfully mined");
+        // add the block to the chain
+        this.chain.push(block);
+
+        // reset the pending transactions
+        this.pendingTransactions = [
+            new Transaction(null, miningRewardAddress, this.miningReward)
+        ];
+    }
+
+    createTransaction(transaction) {
+        this.pendingTransactions.push(transaction);
+    }
+
+    // create a method that checks the balance of an address
+    getBalanceOfAddress(address) {
+    // TYPE THE CODE => balance starts at 0
+    balance = 0;
+    // loop over each block of this chain ( Hint: for..of loop)
+    // loop over each transaction of this block ( Hint: nested for..of loop)
+            if (trans.fromAddress === address) {
+                                 // TYPE THE CODE => reduce the balance because it comes from you
+                if (trans.toAddress === address) {
+                          // TYPE THE CODE =>increase your balance
+                     // close the inner loop
+                  //close the the outer loop
+              //return balance you have when done looping
+            }   // end of the method
+        }
+    }
+
+    getExtraReward(max) {
+        return Math.floor(Math.random() * max);
+    }
 }
 
-createGensisBlock(){
-    return new Block("03/01/2022", "Genesis Block", "0");
-}
+let btCoin = new Blockchain();
 
-getLatestBlock(){
-    return this.chain[this.chain.length-1];
-}
+// send 90 coins from address 1 to address 2  
+btCoin.createTransaction(new Transaction('address1', 'address2', 90));
+//TYPE code to send 60 coins from address 2 to 1
+btCoin.createTransaction(new Transaction('address2', 'address1', 60));
+//TYPE code to send 100 coins from address 2 to 1
+btCoin.createTransaction(new Transaction('address2', 'address1', 100));
 
-minePendingTransactions(miningRewardAddress){
-    let block = new Block(Date.now(), this.pendingTransactions);
-    block.mineBlock(this.difficulty);
-    console.log("Block successfully mined");
+// after we create those transactions, they will be pending
+console.log('\nStarting miner 1..');
+// TYPE THE CODE to apply the method minePendingTransactions (‘Alice-address’) to your coin
+minePendingTransactions('Alice-address');
 
-    this.chain.push(block);
-
-    this.pendingTransactions=[
-        new Transaction(null,miningRewardAddress,this.miningReward)
-    ];
-    
-}
- createTransaction(transaction){
-    this.pendingTransactions.push(this.transaction);
- }
-
- getExtraReward(max){
-    return Math.floor(Math.random() * max);
- }
-}
+//TYPE THE CODE to check the balance 
+console.log("Reward balance of Alice is", )); 
